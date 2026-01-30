@@ -5,18 +5,133 @@ import {
   TrendingDown,
   DollarSign,
   PiggyBank,
+  Send,
   File,
-  FileTextIcon,
+  FileText,
+  Shield,
 } from "lucide-react";
 import CurrentMoneySplitWidget from '@/components/CurrentMoneySplitWidget'
 import GoalProgress from "@/components/Dashboard/GoalProgress";
 import SplitBar from "@/components/Dashboard/SplitBar";
 import StatCard from "@/components/Dashboard/StatCard";
-import TransactionItem from "@/components/Dashboard/TransactionItem";
+import TransactionHistoryItem, { Transaction } from "@/components/Dashboard/TransactionHistoryItem";
+
+const recentTransactions: Transaction[] = [
+  {
+    id: "TX001",
+    type: "Send Money",
+    amount: -500.00,
+    currency: "USDC",
+    counterpartyName: "Maria Santos (Philippines)",
+    counterpartyLabel: "To",
+    date: "2024-01-28 14:32:15",
+    fee: 0.50,
+    status: "Completed"
+  },
+  {
+    id: "TX002",
+    type: "Smart Split",
+    amount: -1200.00,
+    currency: "USDC",
+    counterpartyName: "Smart Split: 4 allocations",
+    counterpartyLabel: "To",
+    date: "2024-01-27 09:15:42",
+    fee: 0.30,
+    status: "Completed"
+  },
+  {
+    id: "TX003",
+    type: "Bill Payment",
+    amount: -85.50,
+    currency: "USDC",
+    counterpartyName: "Manila Electric Company",
+    counterpartyLabel: "To",
+    date: "2024-01-26 16:45:23",
+    fee: 0.10,
+    status: "Completed"
+  },
+  {
+    id: "TX004",
+    type: "Insurance",
+    amount: -25.00,
+    currency: "USDC",
+    counterpartyName: "HealthGuard Insurance Premium",
+    counterpartyLabel: "To",
+    date: "2024-01-25 11:20:05",
+    fee: 0.05,
+    status: "Completed"
+  },
+  {
+    id: "TX005",
+    type: "Savings",
+    amount: -200.00,
+    currency: "USDC",
+    counterpartyName: "Education Fund Goal",
+    counterpartyLabel: "To",
+    date: "2024-01-24 08:55:17",
+    fee: 0.10,
+    status: "Completed"
+  },
+  {
+    id: "TX006",
+    type: "Family Transfer",
+    amount: -150.00,
+    currency: "USDC",
+    counterpartyName: "Carlos Santos (Son)",
+    counterpartyLabel: "To",
+    date: "2024-01-23 19:30:44",
+    fee: 0.15,
+    status: "Completed"
+  },
+  {
+    id: "TX007",
+    type: "Received",
+    amount: 75.00,
+    currency: "USDC",
+    counterpartyName: "Refund from LOBSTR Anchor",
+    counterpartyLabel: "From",
+    date: "2024-01-22 13:15:30",
+    fee: 0.00,
+    status: "Completed"
+  },
+  {
+    id: "TX008",
+    type: "Send Money",
+    amount: -320.00,
+    currency: "USDC",
+    counterpartyName: "Juan Dela Cruz (Philippines)",
+    counterpartyLabel: "To",
+    date: "2024-01-21 10:42:18",
+    fee: 0.40,
+    status: "Pending"
+  },
+  {
+    id: "TX009",
+    type: "Bill Payment",
+    amount: -120.00,
+    currency: "USDC",
+    counterpartyName: "Water District Payment",
+    counterpartyLabel: "To",
+    date: "2024-01-20 15:22:55",
+    fee: 0.00,
+    status: "Failed"
+  },
+  {
+    id: "TX010",
+    type: "Smart Split",
+    amount: -800.00,
+    currency: "USDC",
+    counterpartyName: "Smart Split: 4 allocations",
+    counterpartyLabel: "To",
+    date: "2024-01-19 12:08:33",
+    fee: 0.25,
+    status: "Completed"
+  }
+];
 
 export default function Dashboard() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#141414]">
       {/* Header */}
       <header className="bg-(--background) shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -43,7 +158,7 @@ export default function Dashboard() {
             detail1="+$300"
             detail1Color="text-red-500"
             detail2="+25%"
-            icon={Send}
+            icon={<Send className="w-5 h-5" />}
             showTrend={true}
           />
           <StatCard
@@ -52,7 +167,7 @@ export default function Dashboard() {
             detail1="+$90"
             detail1Color="text-red-500"
             detail2="+33%"
-            icon={PiggyBank}
+            icon={<PiggyBank className="w-5 h-5" />}
             showTrend={true}
           />
           <StatCard
@@ -60,14 +175,14 @@ export default function Dashboard() {
             value="$180"
             detail1="3 bills"
             detail2="This month"
-            icon={FileText}
+            icon={<FileText className="w-5 h-5" />}
           />
           <StatCard
             title="Insurance"
             value="$60"
             detail1="2 policies"
             detail2="Active"
-            icon={Shield}
+            icon={<Shield className="w-5 h-5" />}
           />
         </div>
 
@@ -86,24 +201,9 @@ export default function Dashboard() {
             Recent Transactions
           </h2>
           <div className="space-y-4">
-            <TransactionItem
-              date="2024-01-15"
-              description="Remittance to Family"
-              amount="$300"
-              status="completed"
-            />
-            <TransactionItem
-              date="2024-01-10"
-              description="Bill Payment - Electricity"
-              amount="$50"
-              status="completed"
-            />
-            <TransactionItem
-              date="2024-01-08"
-              description="Savings Goal - Education"
-              amount="$100"
-              status="completed"
-            />
+            {recentTransactions.map((transaction) => (
+              <TransactionHistoryItem key={transaction.id} transaction={transaction} />
+            ))}
           </div>
           <div className="mt-6">
             <Link
@@ -158,7 +258,7 @@ export default function Dashboard() {
           >
             <div className="flex items-center gap-2 mb-4">
               <span>
-                <FileTextIcon className="w-6 h-6 text-[var(--accent)]" />
+                <FileText className="w-6 h-6 text-[var(--accent)]" />
               </span>
               <h2 className="text-xl font-bold text-(--foreground)">
                 Bills by Type
